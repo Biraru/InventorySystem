@@ -7,8 +7,8 @@ local InstanceUtils = require(script.Parent:WaitForChild("Instance"))
 
 local MiscellaneousUtils = {}
 
-function MiscellaneousUtils.GenerateId(): string
-	return HttpService:GenerateGUID()
+function MiscellaneousUtils.GenerateId(wrapInCurlyBraces: boolean?): string
+	return HttpService:GenerateGUID(wrapInCurlyBraces or false)
 end
 
 --[[
