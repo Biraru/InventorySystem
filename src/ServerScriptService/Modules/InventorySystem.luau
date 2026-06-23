@@ -21,10 +21,17 @@ function InventorySystem.Init(): ()
 	end)
 	
 	-- TODO: remove this when done testing or a way to get items is implemented
-	ReplicatedStorage:WaitForChild("InventoryEditTEMP").OnServerEvent:Connect(function(player: Player, table): ()
+	ReplicatedStorage:WaitForChild("InventoryEditTEMP").OnServerEvent:Connect(function(player: Player, actionType: "add" | "remove", table): ()
 		if not player or not player:IsA("Player") then
 			return
+		elseif not actionType then
+			return
 		elseif not table or type(table) ~= "table" then
+			return
+		end
+
+		local loweredActionType = actionType:lower()
+		if loweredActionType ~= "add" and loweredActionType ~= "remove" then
 			return
 		end
 
@@ -33,7 +40,11 @@ function InventorySystem.Init(): ()
 				continue
 			end
 			
-			InventorySystem.AddItem(player, name)
+			if loweredActionType == "add" then
+				InventorySystem.AddItem(player, name)
+			else
+				InventorySystem.RemoveItem(player, name)
+			end
 		end
 	end)
 end
@@ -65,10 +76,31 @@ function InventorySystem.AddItem(player: Player, itemName: string): boolean
 	return true
 end
 
+-- Remove an item from a player's inventory.
+function InventorySystem.RemoveItem(player: Player, itemId: string): boolean
+	local playerBackpack = Utils.Player.GetBackpack(player)
+	if not playerBackpack then
+		return false
+	end
+	
+	local tool = InventorySystem._findToolByGuid(playerBackpack, itemId)
+		or player.Character and InventorySystem._findToolByGuid(player.Character, itemId)
+
+	if tool then
+		tool:Destroy()
+	end
+	
+	DataSystem.EditPlayerData(player, function(playerData): ()
+		playerData.Inventory[itemId] = nil
+	end)
+	
+	return true
+end
+
 -- Create a new tool from an item instance.
 function InventorySystem._createTool(itemId: string, itemInstance: Types.ItemInstance): Tool
 	local tool = itemInstance.Tool:Clone()
-	tool:SetAttribute("Id", itemId)
+	tool:SetAttribute("GUID", itemId)
 	if itemInstance.CustomInfo then
 		for key, value in itemInstance.CustomInfo do
 			tool:SetAttribute(key, value)
@@ -76,6 +108,16 @@ function InventorySystem._createTool(itemId: string, itemInstance: Types.ItemIns
 	end
 	
 	return tool
+end
+
+function InventorySystem._findToolByGuid(container: Instance, guid: string): Tool?
+	for _, child in container:GetChildren() do
+		if child:IsA("Tool") and child:GetAttribute("GUID") == guid then
+			return child
+		end
+	end
+
+	return nil
 end
 
 -- Loads a player's inventory. (removes old tools and adds new ones)
