@@ -13,8 +13,15 @@ local function setupModule(name: string, module)
 	end
 end
 
-for _, module in Modules:GetChildren() do
-	if not module:IsA("ModuleScript") then
+local order = {
+	"DataSystem",
+	"ItemSystem",
+	"InventorySystem",
+}
+
+for _, moduleName in order do
+	local module = Modules:FindFirstChild(moduleName)
+	if not module or not module:IsA("ModuleScript") then
 		continue
 	end
 	
