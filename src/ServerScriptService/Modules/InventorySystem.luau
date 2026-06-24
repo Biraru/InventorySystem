@@ -15,38 +15,39 @@ local InventorySystem = {}
 -- Init
 function InventorySystem.Init(): ()
 	Utils.Player.ObservePlayers(function(player: Player): ()
-		Utils.Character.ObserveCharacter(player, function(character: Model): ()
+		Utils.Character.ObserveCharacter(player, function(): ()
 			InventorySystem._loadInventory(player)
 		end)
 	end)
-	
+
 	-- TODO: remove this when done testing or a way to get items is implemented
-	ReplicatedStorage:WaitForChild("InventoryEditTEMP").OnServerEvent:Connect(function(player: Player, actionType: "add" | "remove", table): ()
-		if not player or not player:IsA("Player") then
-			return
-		elseif not actionType then
-			return
-		elseif not table or type(table) ~= "table" then
-			return
-		end
-
-		local loweredActionType = actionType:lower()
-		if loweredActionType ~= "add" and loweredActionType ~= "remove" then
-			return
-		end
-
-		for _, name in ipairs(table) do
-			if not name or type(name) ~= "string" then
-				continue
+	ReplicatedStorage:WaitForChild("InventoryEditTEMP").OnServerEvent
+		:Connect(function(player: Player, actionType: "add" | "remove", editTable: { string }): ()
+			if not player or not player:IsA("Player") then
+				return
+			elseif not actionType then
+				return
+			elseif not editTable or type(editTable) ~= "table" then
+				return
 			end
-			
-			if loweredActionType == "add" then
-				InventorySystem.AddItem(player, name)
-			else
-				InventorySystem.RemoveItem(player, name)
+
+			local loweredActionType = actionType:lower()
+			if loweredActionType ~= "add" and loweredActionType ~= "remove" then
+				return
 			end
-		end
-	end)
+
+			for _, name in ipairs(editTable) do
+				if not name or type(name) ~= "string" then
+					continue
+				end
+
+				if loweredActionType == "add" then
+					InventorySystem.AddItem(player, name)
+				else
+					InventorySystem.RemoveItem(player, name)
+				end
+			end
+		end)
 end
 
 -- Add an item to a player's inventory.
@@ -72,7 +73,7 @@ function InventorySystem.AddItem(player: Player, itemName: string): boolean
 
 	local tool = InventorySystem._createTool(itemId, itemInstance)
 	tool.Parent = playerBackpack
-	
+
 	return true
 end
 
@@ -82,18 +83,18 @@ function InventorySystem.RemoveItem(player: Player, itemId: string): boolean
 	if not playerBackpack then
 		return false
 	end
-	
+
 	local tool = InventorySystem._findToolByGuid(playerBackpack, itemId)
 		or player.Character and InventorySystem._findToolByGuid(player.Character, itemId)
 
 	if tool then
 		tool:Destroy()
 	end
-	
+
 	DataSystem.EditPlayerData(player, function(playerData): ()
 		playerData.Inventory[itemId] = nil
 	end)
-	
+
 	return true
 end
 
@@ -106,7 +107,7 @@ function InventorySystem._createTool(itemId: string, itemInstance: Types.ItemIns
 			tool:SetAttribute(key, value)
 		end
 	end
-	
+
 	return tool
 end
 
@@ -127,7 +128,7 @@ function InventorySystem._loadInventory(player: Player): ()
 		player:Kick(Constants.ERROR_CODES.PROFILE.DATA_LOAD_FAIL)
 		return
 	end
-	
+
 	local playerBackpack = Utils.Player.GetBackpack(player)
 	if not playerBackpack then
 		return

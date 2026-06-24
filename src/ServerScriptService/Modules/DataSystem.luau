@@ -19,9 +19,9 @@ local DataSystem = {
 	Signals = {
 		DataUpdated = FastSignal.new() :: FastSignal.ScriptSignal<Player>,
 	},
-	
+
 	-- Table holding all the player profiles
-	_profiles = {} :: { [number]: Profile }
+	_profiles = {} :: { [number]: Profile },
 }
 
 -- Init
@@ -45,7 +45,7 @@ function DataSystem.GetPlayerData(player: Player): Templates.PlayerData?
 	if not profile then
 		return nil
 	end
-	
+
 	local profileDataClone = Utils.Table.CopyTable(profile.Data)
 	return profileDataClone :: Templates.PlayerData
 end
@@ -56,9 +56,9 @@ function DataSystem.EditPlayerData(player: Player, editFunction: (playerData: Te
 	if not profile then
 		return
 	end
-	
+
 	editFunction(profile.Data)
-	
+
 	-- future proofing for when its needed to get data changes
 	DataSystem.Signals.DataUpdated:Fire(player)
 end

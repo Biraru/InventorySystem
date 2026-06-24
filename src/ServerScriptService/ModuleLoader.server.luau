@@ -7,7 +7,7 @@ local API = {
 
 local function setupModule(name: string, module)
 	API.Modules[name] = module
-	
+
 	if module.Init then
 		module.Init()
 	end
@@ -24,6 +24,6 @@ for _, moduleName in order do
 	if not module or not module:IsA("ModuleScript") then
 		continue
 	end
-	
+
 	setupModule(module.Name, require(module) :: any)
 end

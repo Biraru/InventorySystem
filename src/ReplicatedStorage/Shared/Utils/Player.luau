@@ -1,6 +1,5 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local CollectionService = game:GetService("CollectionService")
 
 local Janitor = require(ReplicatedStorage:WaitForChild("Packages"):WaitForChild("Janitor"))
 local Types = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Types"))
@@ -24,7 +23,7 @@ function PlayerUtils.GetBackpack(player: Player): Backpack?
 
 		backpack = player:FindFirstChildOfClass("Backpack")
 	end
-	
+
 	return backpack
 end
 

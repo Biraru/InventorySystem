@@ -5,9 +5,7 @@ local Constants = {
 	DATA_TIMEOUT = 3,
 
 	ERROR_CODES = {
-		INVENTORY = {
-			
-		},
+		INVENTORY = {},
 		PROFILE = {
 			LOAD_FAIL = "Profile load fail, Please rejoin. CODE: DS_PRFL-LDA-FAIL",
 			DATA_LOAD_FAIL = "Data load fail, please rejoin. CODE: INVS_DATA-LDA-FAIL",

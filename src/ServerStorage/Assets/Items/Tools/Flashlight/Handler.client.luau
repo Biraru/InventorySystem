@@ -3,7 +3,7 @@ local HandlePart = Tool:WaitForChild("Handle")
 local Spotlight = HandlePart:WaitForChild("Spotlight")
 local Sounds = {
 	Equip = HandlePart:WaitForChild("Equip"),
-	Activate = HandlePart:WaitForChild("Activate")
+	Activate = HandlePart:WaitForChild("Activate"),
 }
 
 local function applyAttributes()
@@ -19,7 +19,7 @@ Tool.Activated:Connect(function()
 	else
 		Spotlight.Enabled = true
 	end
-	
+
 	Sounds.Activate:Play()
 end)
 

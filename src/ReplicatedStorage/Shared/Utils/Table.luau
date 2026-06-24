@@ -2,7 +2,7 @@ local TableUtils = {}
 local Rand = Random.new()
 
 -- Makes a copy of an entire table.
-function TableUtils.CopyTable<T>(cloneTable: T) : T
+function TableUtils.CopyTable<T>(cloneTable: T): T
 	local newTable = {}
 
 	for key, value in cloneTable :: any do

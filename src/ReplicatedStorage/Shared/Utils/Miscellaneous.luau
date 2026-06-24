@@ -66,9 +66,8 @@ function MiscellaneousUtils.PreloadAssets(assets: string | Instance | { string }
 end
 
 -- Splits a path into multiple strings.
-function MiscellaneousUtils.SplitStringPath(path: string): {string}
+function MiscellaneousUtils.SplitStringPath(path: string): { string }
 	return path:split(".")
 end
-
 
 return MiscellaneousUtils
