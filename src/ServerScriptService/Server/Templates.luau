@@ -1,5 +1,5 @@
 local ServerScriptService = game:GetService("ServerScriptService")
-local Types = require(ServerScriptService:WaitForChild("Server"):WaitForChild("Types"))
+local Types = require(ServerScriptService.Server.Types)
 
 local PLAYER_DATA = {
 	Inventory = {} :: { [string]: Types.ItemData },

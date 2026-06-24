@@ -1,5 +1,5 @@
 local ServerScriptService = game:GetService("ServerScriptService")
-local Modules = ServerScriptService:WaitForChild("Modules")
+local Modules = ServerScriptService.Modules
 
 local API = {
 	Modules = {},

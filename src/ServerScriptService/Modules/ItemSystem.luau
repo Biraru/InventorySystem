@@ -3,12 +3,12 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local ServerStorage = game:GetService("ServerStorage")
 local CollectionService = game:GetService("CollectionService")
 
-local ItemsFolder = ServerStorage:WaitForChild("Assets"):WaitForChild("Items")
-local ItemsModulesFolder = ItemsFolder:WaitForChild("Modules")
-local ItemsToolsFolder = ItemsFolder:WaitForChild("Tools")
+local ItemsFolder = ServerStorage.Assets.Items
+local ItemsModulesFolder = ItemsFolder.Modules
+local ItemsToolsFolder = ItemsFolder.Tools
 
-local Utils = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Utils"))
-local Types = require(ServerScriptService:WaitForChild("Server"):WaitForChild("Types"))
+local Utils = require(ReplicatedStorage.Shared.Utils)
+local Types = require(ServerScriptService.Server.Types)
 
 local ItemSystem = {
 	_items = {} :: { [string]: Types.ItemInstance },

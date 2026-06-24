@@ -1,14 +1,14 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
-local ModulesFolder = ServerScriptService:WaitForChild("Modules")
-local ServerFolder = ServerScriptService:WaitForChild("Server")
+local ModulesFolder = ServerScriptService.Modules
+local ServerFolder = ServerScriptService.Server
 
-local Utils = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Utils"))
-local DataSystem = require(ModulesFolder:WaitForChild("DataSystem"))
-local ItemSystem = require(ModulesFolder:WaitForChild("ItemSystem"))
-local Constants = require(ServerFolder:WaitForChild("Constants"))
-local Types = require(ServerFolder:WaitForChild("Types"))
+local Utils = require(ReplicatedStorage.Shared.Utils)
+local DataSystem = require(ModulesFolder.DataSystem)
+local ItemSystem = require(ModulesFolder.ItemSystem)
+local Constants = require(ServerFolder.Constants)
+local Types = require(ServerFolder.Types)
 
 local InventorySystem = {}
 
