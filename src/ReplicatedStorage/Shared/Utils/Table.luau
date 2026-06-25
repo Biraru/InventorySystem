@@ -60,7 +60,7 @@ end
 function TableUtils.GetDictionaryCount(dict: { [any]: any }): number
 	local count = 0
 
-	for _ in pairs(dict) do
+	for _ in dict do
 		count += 1
 	end
 

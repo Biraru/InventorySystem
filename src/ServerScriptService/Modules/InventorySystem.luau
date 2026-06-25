@@ -36,7 +36,7 @@ function InventorySystem.Init(): ()
 				return
 			end
 
-			for _, name in ipairs(editTable) do
+			for _, name in editTable do
 				if not name or type(name) ~= "string" then
 					continue
 				end
