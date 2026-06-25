@@ -2,7 +2,15 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local Types = require(ServerScriptService.Server.Types)
 
 local PLAYER_DATA = {
-	Inventory = {} :: { [string]: Types.ItemData },
+	Weapon = "Default",
+	Level = 1,
+	Experience = 0,
+	Inventory = {},
+} :: {
+	Weapon: string,
+	Level: number,
+	Experience: number,
+	Inventory: { [string]: Types.ItemData },
 }
 
 export type PlayerData = typeof(PLAYER_DATA)
