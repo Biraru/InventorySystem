@@ -42,7 +42,7 @@ function ItemSystem.Init(): ()
 		local itemInstance = {
 			Tool = tool,
 		} :: Types.ItemInstance
-		for key, value in pairs(module :: { [string]: any }) do
+		for key, value in module :: { [string]: any } do
 			itemInstance[key] = value
 		end
 
