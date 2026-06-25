@@ -88,7 +88,7 @@ function CharacterUtils.ObserveOnDeath(humanoid: Humanoid, callback: () -> ()): 
 		if parent ~= nil then
 			return false
 		end
-		
+
 		onDied()
 		return true
 	end))

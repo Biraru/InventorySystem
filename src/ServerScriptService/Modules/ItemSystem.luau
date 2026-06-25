@@ -32,7 +32,7 @@ function ItemSystem.Init(): ()
 			warn("Invalid tool for item: " .. item.Name)
 			continue
 		end
-		
+
 		if (module.DisplayName or tool.Name) ~= item.Name then
 			tool = tool:Clone()
 			tool.Name = module.DisplayName or item.Name
