@@ -1,4 +1,5 @@
-# InventorySystem
+# Training Grounds
+A project made to test my skills, and to put it in my projects section in my portfolio.
 
 ## Development Setup
 ### Requirements
