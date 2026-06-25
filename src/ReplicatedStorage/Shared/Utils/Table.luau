@@ -3,9 +3,13 @@ local Rand = Random.new()
 
 -- Makes a copy of an entire table.
 function TableUtils.CopyTable<T>(cloneTable: T): T
+	if type(cloneTable) ~= "table" then
+		return cloneTable
+	end
+
 	local newTable = {}
 
-	for key, value in cloneTable :: any do
+	for key, value in cloneTable do
 		if typeof(value) == "table" then
 			newTable[key] = TableUtils.CopyTable(value)
 
@@ -23,7 +27,7 @@ function TableUtils.CopyTable<T>(cloneTable: T): T
 		setmetatable(newTable, metaTable)
 	end
 
-	return newTable
+	return newTable :: T & {}
 end
 
 --[[
@@ -36,10 +40,6 @@ function TableUtils.ConvertDictToArray<Key, Value>(
 	dictionary: { [Key]: Value },
 	convertType: "Keys" | "Values"
 ): { Key } | { Value }
-	if not TableUtils.IsTableADictionary(dictionary) then
-		return dictionary
-	end
-
 	local newTable = {}
 
 	for key, value in dictionary do

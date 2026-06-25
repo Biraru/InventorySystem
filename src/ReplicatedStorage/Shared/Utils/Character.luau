@@ -86,9 +86,11 @@ function CharacterUtils.ObserveOnDeath(humanoid: Humanoid, callback: () -> ()): 
 	end))
 	mainJanitor:Add(InstanceUtils.ObserveParent(humanoid, function(parent: Instance): ()
 		if parent ~= nil then
-			return
+			return false
 		end
+		
 		onDied()
+		return true
 	end))
 
 	mainJanitor:Add(humanoid.Died:Connect(onDied))

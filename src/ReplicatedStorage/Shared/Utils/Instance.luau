@@ -85,7 +85,7 @@ end
 function InstanceUtils.ObserveParent(
 	instance: Instance,
 	callback: (parent: Instance, parentJanitor: Types.Janitor) -> (),
-	predicate: ((parent: Instance) -> boolean?)?
+	predicate: ((parent: Instance) -> boolean)?
 ): Types.Janitor
 	return InstanceUtils.ObserveProperty(instance, "Parent", callback, predicate)
 end
