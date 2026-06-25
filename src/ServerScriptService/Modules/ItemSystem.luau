@@ -21,16 +21,22 @@ function ItemSystem.Init(): ()
 			continue
 		end
 
-		local tool = ItemsToolsFolder:FindFirstChild(item.Name)
-		if not tool or not tool:IsA("Tool") then
-			warn("Invalid tool for item: " .. item.Name)
-			continue
-		end
-
 		local module = require(item) :: Types.ItemModule
 		if not ItemSystem._validateItemModule(module) then
 			warn("Invalid item module: " .. item.Name)
 			continue
+		end
+
+		local tool = ItemsToolsFolder:FindFirstChild(module.ToolName or item.Name)
+		if not tool or not tool:IsA("Tool") then
+			warn("Invalid tool for item: " .. item.Name)
+			continue
+		end
+		
+		if (module.DisplayName or tool.Name) ~= item.Name then
+			tool = tool:Clone()
+			tool.Name = module.DisplayName or item.Name
+			tool.Parent = ItemsToolsFolder
 		end
 
 		local itemInstance = {
