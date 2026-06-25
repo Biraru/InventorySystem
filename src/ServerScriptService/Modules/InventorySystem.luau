@@ -6,7 +6,7 @@ local ServerFolder = ServerScriptService.Server
 
 local Utils = require(ReplicatedStorage.Shared.Utils)
 local DataSystem = require(ModulesFolder.DataSystem)
-local ItemSystem = require(ModulesFolder.ItemSystem)
+local ItemRegistry = require(ModulesFolder.ItemRegistry)
 local Constants = require(ServerFolder.Constants)
 local Types = require(ServerFolder.Types)
 
@@ -46,7 +46,7 @@ end
 
 -- Add an item to a player's inventory.
 function InventorySystem.AddItem(player: Player, itemName: string): boolean
-	local itemInstance = ItemSystem.GetItem(itemName)
+	local itemInstance = ItemRegistry.GetItem(itemName)
 	if not itemInstance then
 		return false
 	end
@@ -107,7 +107,7 @@ function InventorySystem.LoadInventory(player: Player): ()
 	playerBackpack:ClearAllChildren()
 
 	for itemId, itemData in profileData.Inventory do
-		local itemInstance = ItemSystem.GetItem(itemData.Name)
+		local itemInstance = ItemRegistry.GetItem(itemData.Name)
 		if not itemInstance then
 			continue
 		end

@@ -10,19 +10,19 @@ local ItemsToolsFolder = ItemsFolder.Tools
 local Utils = require(ReplicatedStorage.Shared.Utils)
 local Types = require(ServerScriptService.Server.Types)
 
-local ItemSystem = {
+local ItemRegistry = {
 	_items = {} :: { [string]: Types.ItemInstance },
 }
 
 -- Init
-function ItemSystem.Init(): ()
+function ItemRegistry.Init(): ()
 	for _, item: ModuleScript in ItemsModulesFolder:GetChildren() do
 		if not item:IsA("ModuleScript") or CollectionService:HasTag(item, "Disabled") then
 			continue
 		end
 
 		local module = require(item) :: Types.ItemModule
-		if not ItemSystem._validateItemModule(module) then
+		if not ItemRegistry._validateItemModule(module) then
 			warn("Invalid item module: " .. item.Name)
 			continue
 		end
@@ -46,7 +46,7 @@ function ItemSystem.Init(): ()
 			itemInstance[key] = value
 		end
 
-		ItemSystem._items[item.Name] = itemInstance
+		ItemRegistry._items[item.Name] = itemInstance
 	end
 end
 
@@ -54,8 +54,8 @@ end
 	Get an item by name.
 	DO NOT MUTATE THE RETURNED TABLE AS IT WILL NOT UPDATE THE ITEM INSTANCE.
 ]]
-function ItemSystem.GetItem(itemName: string): Types.ItemInstance?
-	local itemInstance = ItemSystem._items[itemName]
+function ItemRegistry.GetItem(itemName: string): Types.ItemInstance?
+	local itemInstance = ItemRegistry._items[itemName]
 	if not itemInstance then
 		return nil
 	end
@@ -64,7 +64,7 @@ function ItemSystem.GetItem(itemName: string): Types.ItemInstance?
 end
 
 -- Validate an item module.
-function ItemSystem._validateItemModule<T>(module: T & Types.ItemModule): boolean
+function ItemRegistry._validateItemModule<T>(module: T & Types.ItemModule): boolean
 	if module.Stackable == nil then
 		return false
 	end
@@ -72,4 +72,4 @@ function ItemSystem._validateItemModule<T>(module: T & Types.ItemModule): boolea
 	return true
 end
 
-return ItemSystem
+return ItemRegistry
