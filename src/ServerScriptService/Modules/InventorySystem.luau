@@ -14,12 +14,6 @@ local InventorySystem = {}
 
 -- Init
 function InventorySystem.Init(): ()
-	Utils.Player.ObservePlayers(function(player: Player): ()
-		Utils.Character.ObserveCharacter(player, function(): ()
-			InventorySystem._loadInventory(player)
-		end)
-	end)
-
 	-- TODO: remove this when done testing or a way to get items is implemented
 	ReplicatedStorage:WaitForChild("InventoryEditTEMP").OnServerEvent
 		:Connect(function(player: Player, actionType: "add" | "remove", editTable: { string }): ()
@@ -98,31 +92,8 @@ function InventorySystem.RemoveItem(player: Player, itemId: string): boolean
 	return true
 end
 
--- Create a new tool from an item instance.
-function InventorySystem._createTool(itemId: string, itemInstance: Types.ItemInstance): Tool
-	local tool = itemInstance.Tool:Clone()
-	tool:SetAttribute("GUID", itemId)
-	if itemInstance.CustomInfo then
-		for key, value in itemInstance.CustomInfo do
-			tool:SetAttribute(key, value)
-		end
-	end
-
-	return tool
-end
-
-function InventorySystem._findToolByGuid(container: Instance, guid: string): Tool?
-	for _, child in container:GetChildren() do
-		if child:IsA("Tool") and child:GetAttribute("GUID") == guid then
-			return child
-		end
-	end
-
-	return nil
-end
-
--- Loads a player's inventory. (removes old tools and adds new ones)
-function InventorySystem._loadInventory(player: Player): ()
+-- Loads a player's inventory. (clears backpack and adds the tools)
+function InventorySystem.LoadInventory(player: Player): ()
 	local profileData = DataSystem.GetPlayerData(player)
 	if not profileData then
 		player:Kick(Constants.ERROR_CODES.PROFILE.DATA_LOAD_FAIL)
@@ -144,6 +115,29 @@ function InventorySystem._loadInventory(player: Player): ()
 		local tool = InventorySystem._createTool(itemId, itemInstance)
 		tool.Parent = playerBackpack
 	end
+end
+
+-- Create a new tool from an item instance.
+function InventorySystem._createTool(itemId: string, itemInstance: Types.ItemInstance): Tool
+	local tool = itemInstance.Tool:Clone()
+	tool:SetAttribute("GUID", itemId)
+	if itemInstance.CustomInfo then
+		for key, value in itemInstance.CustomInfo do
+			tool:SetAttribute(key, value)
+		end
+	end
+
+	return tool
+end
+
+function InventorySystem._findToolByGuid(container: Instance, guid: string): Tool?
+	for _, child in container:GetChildren() do
+		if child:IsA("Tool") and child:GetAttribute("GUID") == guid then
+			return child
+		end
+	end
+
+	return nil
 end
 
 return InventorySystem

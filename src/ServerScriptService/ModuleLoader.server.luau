@@ -17,6 +17,7 @@ local order = {
 	"DataSystem",
 	"ItemSystem",
 	"InventorySystem",
+	"PlayerManager",
 }
 
 for _, moduleName in order do
