@@ -9,7 +9,7 @@ function TableUtils.CopyTable<T>(cloneTable: T): T
 
 	local newTable = {}
 
-	for key, value in cloneTable do
+	for key, value in cloneTable :: any do
 		if typeof(value) == "table" then
 			newTable[key] = TableUtils.CopyTable(value)
 
