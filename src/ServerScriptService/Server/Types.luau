@@ -1,4 +1,4 @@
--- Items Types
+-- Item Types
 export type ItemData = {
 	Name: string,
 }
